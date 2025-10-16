@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: terracota-db
+    restart: always
+    environment:
+      POSTGRES_USER: terracota
+      POSTGRES_PASSWORD: terracota123
+      POSTGRES_DB: terracota_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: terracota-backend
+    command: sh -c "./wait-for-db.sh db python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_DB: terracota_db
+      POSTGRES_USER: terracota
+      POSTGRES_PASSWORD: terracota123
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend-app
+    container_name: terracota-frontend
+    command: npm run dev
+    volumes:
+      - ./frontend-app:/app:cached  # improves file watching on Windows
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+
+volumes:
+  postgres_data:
