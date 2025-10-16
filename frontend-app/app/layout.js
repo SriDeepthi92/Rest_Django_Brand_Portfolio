@@ -4,16 +4,16 @@ import Navbar from "@/components/Navbar";
 
 
 export const metadata = {
-  title: "Tivachi Rugs",
+  title: "Tewachi Rugs",
   description: "Luxury handmade rugs crafted with timeless beauty",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="font-sans text-gray-900 bg-white">
+      <body>
         <Navbar />
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   );
