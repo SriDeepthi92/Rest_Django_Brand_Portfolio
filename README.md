@@ -1,4 +1,4 @@
-# Terracota / Tivachi - Project README
+# Project README
 
 A combined Django + React/Next-style frontend project for the Terracota / Tivachi rugs storefront.
 
@@ -70,3 +70,4 @@ Notes:
 
 ## License
 - Add project license file (e.g., LICENSE) and update this section accordingly.
+
